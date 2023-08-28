@@ -30,9 +30,12 @@ class Dimensions{
 
 
 
-  // static double margin30 = screenHeight/26.59;
+  //font size
   static double font12 = screenHeight/66.48;
   static double font20 = screenHeight/39.88; //797.7142857142857/20
+  static double font26 = screenHeight/30.68;
+
+  //Radius
   static double radius5 = screenHeight/159.54;
   static double radius15 = screenHeight/53.18;
   static double radius20 = screenHeight/39.88;
@@ -41,6 +44,7 @@ class Dimensions{
 
   //Icon size
   static double iconSize24 = screenHeight/33.24; //797.7142857142857/24
+  static double iconSize16 = screenHeight/49.86;
 
   //Listview size
   static double listViewImgSize = screenWidth/3.43;   //411.42857/120
@@ -49,6 +53,12 @@ class Dimensions{
   //Popular food page
 static double popularFoodImgSize = screenHeight/2.28; //797.7142857142857/350
 
+//bottom height
+static double bottomHeightBar = screenHeight/6.65 ; // 797.7142857142857/120
+
+
+
+// 805.34     384
 
 
 }
