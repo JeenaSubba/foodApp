@@ -1,6 +1,10 @@
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:projectviii/controllers/popular_product_controller.dart';
+import 'package:projectviii/models/products_model.dart';
+import 'package:projectviii/utils/app_constants.dart';
 import 'package:projectviii/utils/colors.dart';
 import 'package:projectviii/utils/dimensions.dart';
 import 'package:projectviii/widgets/app_column.dart';
@@ -43,28 +47,36 @@ class _FoodPageBodyState extends State<FoodPageBody> {
       children: [
 
         //Slider section
-        Container(
-          // color: Colors.grey,
-          height: Dimensions.pageView,
-          child: PageView.builder(
-              controller: pageController,
-              itemCount: 5,
-              itemBuilder: (context, position) {
-                return _PageInsideBody(position);
-              }),
-        ),
+        GetBuilder<PopularProductController>(builder: (popularProducts){    //get builder connects popularproductcontroller to UI, and get upgraded data
+          return popularProducts.isLoaded?Container(
+            // color: Colors.grey,
+            height: Dimensions.pageView,
+            child: PageView.builder(
+                controller: pageController,
+                itemCount: popularProducts.popularProductList.length,
+                itemBuilder: (context, position) {
+                  return _PageInsideBody(position, popularProducts.popularProductList[position]);
+                }),
+          )
+              :CircularProgressIndicator(
+                   color: AppColors.secondColor,
+
+          );
+        }),
         //dots
-        new DotsIndicator(
-          dotsCount: 5,
-          position: _currPageValue.toInt(),
-          decorator: DotsDecorator(
-            activeColor: AppColors.secondColor,
-            size: const Size.square(9.0),
-            activeSize: const Size(18.0, 9.0),
-            activeShape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(Dimensions.radius5)),
-          ),
-        ),
+        GetBuilder<PopularProductController>(builder: (popularProducts){
+          return DotsIndicator(
+            dotsCount: popularProducts.popularProductList.isEmpty?1:popularProducts.popularProductList.length,
+            position: _currPageValue.toInt(),
+            decorator: DotsDecorator(
+              activeColor: AppColors.secondColor,
+              size: const Size.square(9.0),
+              activeSize: const Size(18.0, 9.0),
+              activeShape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(Dimensions.radius5)),
+            ),
+          );
+        }),
         
         //Popular Section
         SizedBox(height: Dimensions.height30,),
@@ -73,7 +85,7 @@ class _FoodPageBodyState extends State<FoodPageBody> {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              BigText(text: "Popular"),
+              BigText(text: "Recommended"),
               SizedBox(width: Dimensions.width10,),
               Container(
                 margin: const EdgeInsets.only(bottom: 3),
@@ -172,7 +184,7 @@ class _FoodPageBodyState extends State<FoodPageBody> {
     );
   }
 
-  Widget _PageInsideBody(int index) {
+  Widget _PageInsideBody(int index, ProductModel popularProduct) {
     Matrix4 matrix = new Matrix4.identity();
     if (index == _currPageValue.floor()) {
       var currScale = 1 - (_currPageValue - index) * (1 - _scaleFactor);
@@ -210,7 +222,9 @@ class _FoodPageBodyState extends State<FoodPageBody> {
                 color: index.isEven ? Color(0xFFD52E2D) : Color(0xFFDD7171),
                 image: DecorationImage(
                     fit: BoxFit.cover,
-                    image: AssetImage("assets/image/front1.png"))),
+                    image: NetworkImage(
+                      AppConstants.BASE_URL + "/uploads/" + popularProduct.img!   //cannot be null, its bang operator
+                    ))),
           ),
           Align(
             alignment: Alignment.bottomCenter,
@@ -231,7 +245,7 @@ class _FoodPageBodyState extends State<FoodPageBody> {
                   ]),
               child: Container(
                 padding: EdgeInsets.only(top: Dimensions.height15, left:Dimensions.height15 , right: Dimensions.height15 ),
-                child: AppColumn(text:" Mo:Mo Hub" ,),  //reusing it from widget/ app_column
+                child: AppColumn(text: popularProduct.name!),  //reusing it from widget/ app_column
               ),
             ),
           ),

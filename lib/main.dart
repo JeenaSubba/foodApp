@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:projectviii/pages/food/popular_food_detail.dart';
-import 'package:projectviii/pages/food/recommended_food_details.dart';
+import 'package:projectviii/controllers/popular_product_controller.dart';
 import 'package:projectviii/pages/home/main_food_page.dart';
 import 'package:projectviii/helper/dependencies.dart' as dep;
 
@@ -17,6 +16,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    Get.find<PopularProductController>().getPopularProductList();
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
 
       ),
-      home: RecommendedFoodDetails(),
+      home: MainFoodPage(),
       //home: MainFoodPage(),
     );
   }
