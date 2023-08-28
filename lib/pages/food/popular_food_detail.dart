@@ -70,8 +70,10 @@ class PopularFoodDetail extends StatelessWidget {
                     AppColumn(text: "Mo:Mo Hub",),
                     SizedBox(height: Dimensions.height20,),
                     BigText(text: "Introduction"),
+                    SizedBox(height: Dimensions.height20,),
                     //expandable Text Widget
-                    ExpandableTextWidget(text: "Chicken Momo is a dish that needs no introduction. However, it is pretty easy to prepare it at home without putting in much effort. Here’s how you go about preparing it at home: To begin with, rinse the veggies and chicken with lukewarm water to thoroughly clean them. Then take a clean chopping board, chop the vegetables separately and keep them aside. Then take a pan or a pressure cooker and boil the chicken, with a pinch of salt and pepper. If you want to make it aromatic, you can add a small teaspoon of ginger and chilli garlic paste. If you like the flavour of garlic, you can add some more garlic paste. Once done, carefully mince the boiled chicken. Keep it aside."),
+                    Expanded(child: SingleChildScrollView(child: ExpandableTextWidget(text: "Chicken Momo is a dish that needs no introduction. However, it is pretty easy to prepare it at home without putting in much effort. Here’s how you go about preparing it at home: To begin with, rinse the veggies and chicken with lukewarm water to thoroughly clean them. Then take a clean chopping board, chop the vegetables separately and keep them aside. Then take a pan or a pressure cooker and boil the chicken, with a pinch of salt and pepper. If you want to make it aromatic, you can add a small teaspoon of ginger and chilli garlic paste. If you like the flavour of garlic, you can add some more garlic paste. Once done, carefully mince the boiled chicken. Keep it aside."))),
+
                   ],
                 ),   //reusing it from widget/ app_column
 

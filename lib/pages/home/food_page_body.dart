@@ -230,7 +230,7 @@ class _FoodPageBodyState extends State<FoodPageBody> {
                     BoxShadow(color: Colors.white, offset: Offset(5, 0))
                   ]),
               child: Container(
-                padding: EdgeInsets.only(top: Dimensions.height15, left:Dimensions.height15 , right: Dimensions.height15),
+                padding: EdgeInsets.only(top: Dimensions.height15, left:Dimensions.height15 , right: Dimensions.height15 ),
                 child: AppColumn(text:" Mo:Mo Hub" ,),  //reusing it from widget/ app_column
               ),
             ),
