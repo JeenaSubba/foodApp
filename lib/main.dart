@@ -21,7 +21,8 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
 
       ),
-      home: PopularFoodDetail(),
+      // home: PopularFoodDetail(),
+      home: MainFoodPage(),
     );
   }
 }
