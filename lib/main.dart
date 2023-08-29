@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:projectviii/controllers/popular_product_controller.dart';
+import 'package:projectviii/controllers/recommended_product_controller.dart';
 import 'package:projectviii/pages/home/main_food_page.dart';
 import 'package:projectviii/helper/dependencies.dart' as dep;
 
@@ -17,6 +18,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Get.find<PopularProductController>().getPopularProductList();
+    Get.find<RecommendedProductController>().getRecommendedProductList();
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',

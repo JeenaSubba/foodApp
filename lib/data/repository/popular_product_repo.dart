@@ -7,7 +7,7 @@ class PopularProductRepo extends GetxService{   //to load data from internet we 
   PopularProductRepo({required this.apiClient});
 
   Future<Response> getPopularProductList() async{
-    return await apiClient.getData(AppConstants.BASE_URL);
+    return await apiClient.getData(AppConstants.POPULAR_PRODUCT_URI);
   }
 
 }

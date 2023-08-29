@@ -19,7 +19,7 @@ class PopularProductController extends GetxController{
       _popularProductList=[];  //initialize this as null or the data will be repeated
       _popularProductList.addAll(Product.fromJson(response.body).products);
       //print(_popularProductList);
-      _isLoaded = true;
+       _isLoaded = true;
       update();
     }else {
 

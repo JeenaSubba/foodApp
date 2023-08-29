@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:projectviii/controllers/popular_product_controller.dart';
+import 'package:projectviii/controllers/recommended_product_controller.dart';
 import 'package:projectviii/models/products_model.dart';
 import 'package:projectviii/utils/app_constants.dart';
 import 'package:projectviii/utils/colors.dart';
@@ -57,8 +58,7 @@ class _FoodPageBodyState extends State<FoodPageBody> {
                 itemBuilder: (context, position) {
                   return _PageInsideBody(position, popularProducts.popularProductList[position]);
                 }),
-          )
-              :CircularProgressIndicator(
+          ) :CircularProgressIndicator(
                    color: AppColors.secondColor,
 
           );
@@ -102,82 +102,87 @@ class _FoodPageBodyState extends State<FoodPageBody> {
         SizedBox(height: Dimensions.height30,),
         //List of food and images
 
-          ListView.builder(     //parent container of list view builder needs to have certain height
-              physics: NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              itemCount: 10,
-              itemBuilder: (context, index){
-                return Container(
-                  margin: EdgeInsets.only(left: Dimensions.width20, right: Dimensions.width20, bottom:  Dimensions.height10),
-                  child: Row(
-                    children: [
+          GetBuilder<RecommendedProductController>(builder: (recommendedProduct){
+            return  recommendedProduct.isLoaded?ListView.builder(     //parent container of list view builder needs to have certain height
+                physics: NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                itemCount: recommendedProduct.recommendedProductList.length,
+                itemBuilder: (context, index){
+                  return Container(
+                    margin: EdgeInsets.only(left: Dimensions.width20, right: Dimensions.width20, bottom:  Dimensions.height10),
+                    child: Row(
+                      children: [
 
-                      //Image section
-                      Container(
-                        width: Dimensions.listViewImgSize,
-                        height: Dimensions.listViewImgSize,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(Dimensions.radius20),
-                            color: Colors.white38,
-                            image: DecorationImage(
-                              fit: BoxFit.cover,
-                                image: AssetImage(
-                                    "assets/image/food0.png"
-                                )
-                            )
-                        ),
-                      ),
-
-                      //Text Section
-                      Expanded(
-                        child: Container(
-                          height: Dimensions.listViewTextContSize,
+                        //Image section
+                        Container(
+                          width: Dimensions.listViewImgSize,
+                          height: Dimensions.listViewImgSize,
                           decoration: BoxDecoration(
-                            borderRadius: BorderRadius.only(
-                              topRight: Radius.circular(Dimensions.radius20),
-                              bottomRight: Radius.circular(Dimensions.radius20),
-                            ),
-                            color: Colors.white,
-
-                          ) ,
-                          child: Padding(
-                            padding: EdgeInsets.only(left: Dimensions.width10, right: Dimensions.width10),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,  //horizontal
-                              mainAxisAlignment: MainAxisAlignment.center , //Vertical
-                              children: [
-                                BigText(text: "Nutritous fruit meal in Nepal"),
-                                SizedBox(height: Dimensions.height10,),
-                                SmallText(text: "With Nepalese characterristics"),
-                                SizedBox(height: Dimensions.height10,),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    IconAndText(
-                                      icon: Icons.circle_sharp,
-                                      text: "Normal",
-                                      iconColor:
-                                      AppColors.iconColor1,), //Original Iconcolor1
-                                    IconAndText(
-                                        icon: Icons.location_on,
-                                        text: "1.7km",
-                                        iconColor: AppColors.mainColor),
-                                    IconAndText(
-                                        icon: Icons.access_time_rounded,
-                                        text: "Normal",
-                                        iconColor: AppColors.iconColor2),
-                                  ],
-                                )
-                              ],
-                            ),
+                              borderRadius: BorderRadius.circular(Dimensions.radius20),
+                              color: Colors.white38,
+                              image: DecorationImage(
+                                  fit: BoxFit.cover,
+                                  image: NetworkImage(
+                                      AppConstants.BASE_URL + AppConstants.UPLOAD_URL + recommendedProduct.recommendedProductList[index].img!   //cannot be null, its bang operator
+                                  )
+                              )
                           ),
                         ),
 
-                      )
-                    ],
-                  ),
-                );
-              }),
+                        //Text Section
+                        Expanded(
+                          child: Container(
+                            height: Dimensions.listViewTextContSize,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.only(
+                                topRight: Radius.circular(Dimensions.radius20),
+                                bottomRight: Radius.circular(Dimensions.radius20),
+                              ),
+                              color: Colors.white,
+
+                            ) ,
+                            child: Padding(
+                              padding: EdgeInsets.only(left: Dimensions.width10, right: Dimensions.width10),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,  //horizontal
+                                mainAxisAlignment: MainAxisAlignment.center , //Vertical
+                                children: [
+                                  BigText(text: recommendedProduct.recommendedProductList[index].name!),
+                                  SizedBox(height: Dimensions.height10,),
+                                  SmallText(text: "With Nepalese characterristics"),
+                                  SizedBox(height: Dimensions.height10,),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      IconAndText(
+                                        icon: Icons.circle_sharp,
+                                        text: "Normal",
+                                        iconColor:
+                                        AppColors.iconColor1,), //Original Iconcolor1
+                                      IconAndText(
+                                          icon: Icons.location_on,
+                                          text: "1.7km",
+                                          iconColor: AppColors.mainColor),
+                                      IconAndText(
+                                          icon: Icons.access_time_rounded,
+                                          text: "Normal",
+                                          iconColor: AppColors.iconColor2),
+                                    ],
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+
+                        )
+                      ],
+                    ),
+                  );
+                }):
+            CircularProgressIndicator(
+              color: AppColors.secondColor,
+            );
+          })
 
         
       ],
@@ -223,7 +228,7 @@ class _FoodPageBodyState extends State<FoodPageBody> {
                 image: DecorationImage(
                     fit: BoxFit.cover,
                     image: NetworkImage(
-                      AppConstants.BASE_URL + "/uploads/" + popularProduct.img!   //cannot be null, its bang operator
+                      AppConstants.BASE_URL + AppConstants.UPLOAD_URL  + popularProduct.img!   //cannot be null, its bang operator
                     ))),
           ),
           Align(
