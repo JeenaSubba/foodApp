@@ -4,6 +4,7 @@ import 'package:projectviii/controllers/popular_product_controller.dart';
 import 'package:projectviii/controllers/recommended_product_controller.dart';
 import 'package:projectviii/pages/home/main_food_page.dart';
 import 'package:projectviii/helper/dependencies.dart' as dep;
+import 'package:projectviii/routes/route_helper.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();  //makes sure that dependencies are loaded correctly
@@ -22,12 +23,10 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
-      theme: ThemeData(
 
-        primarySwatch: Colors.blue,
-
-      ),
       home: MainFoodPage(),
+      initialRoute: RouteHelper.initial,
+      getPages: RouteHelper.routes,
       //home: MainFoodPage(),
     );
   }
