@@ -4,7 +4,9 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:projectviii/controllers/cart_controller.dart';
 import 'package:projectviii/controllers/popular_product_controller.dart';
+import 'package:projectviii/pages/cart/cart_page.dart';
 import 'package:projectviii/pages/home/main_food_page.dart';
+import 'package:projectviii/routes/route_helper.dart';
 import 'package:projectviii/utils/app_constants.dart';
 import 'package:projectviii/utils/colors.dart';
 import 'package:projectviii/utils/dimensions.dart';
@@ -17,7 +19,8 @@ import 'package:projectviii/widgets/small_text.dart';
 
 class PopularFoodDetail extends StatelessWidget {
   final int pageId;
-  const PopularFoodDetail({Key? key, required this.pageId}) : super(key: key);
+  final String page;
+  const PopularFoodDetail({Key? key, required this.pageId, required this.page}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -52,38 +55,56 @@ class PopularFoodDetail extends StatelessWidget {
                 children: [
                   GestureDetector(
                     onTap:(){
-                      Get.to(()=> MainFoodPage());
+                      if(page=="cartpage"){
+                        Get.toNamed(RouteHelper.getCartPage());
+                      }else{
+                        Get.toNamed(RouteHelper.getInitial());
+                      }
                     },
                       child:
                   AppIcon(icon: Icons.arrow_back_ios)),
 
                   GetBuilder<PopularProductController>(builder: (controller){
-                    return Stack(
-                      children: [
-                        AppIcon(icon: Icons.shopping_cart_outlined),
-                        Get.find<PopularProductController>().totalItems>=1?
-                          Positioned(
-                            right: 0,
-                            top:0,
-                            child: AppIcon(
-                              icon: Icons.circle,
-                              size: 20,
-                              iconColor:
-                              Colors.transparent,
-                              backgroundColor: AppColors.secondColor,),
-                          ):
-                        Container(),
-                        Get.find<PopularProductController>().totalItems>=1?
-                        Positioned(
-                          right: 4,
-                          top:3,
-                          child: BigText(text: Get.find<PopularProductController>().totalItems.toString(),
-                              size: 12, color: Colors.white,
-                          ),
+                    return GestureDetector(
+                      onTap: (){
+                        if(controller.totalItems>=1){
+                          Get.toNamed(RouteHelper.getCartPage());
+                        }else{
+                          Get.snackbar("Item Count", "Cart is empty!",
+                              backgroundColor: AppColors.secondColor,
+                              colorText: Colors.white);
+                        }
 
-                        ):
-                        Container(),
-                      ],
+                      },
+                      child: Stack(
+                        children: [
+                          AppIcon(icon: Icons.shopping_cart_outlined),
+                          controller.totalItems>=1?
+                            Positioned(
+                              right: 0,
+                              top:0,
+
+                                child: AppIcon(
+                                  icon: Icons.circle,
+                                  size: 20,
+                                  iconColor:
+                                  Colors.transparent,
+                                  backgroundColor: AppColors.secondColor,),
+
+                            ):
+                          Container(),
+                          Get.find<PopularProductController>().totalItems>=1?
+                          Positioned(
+                            right: 4,
+                            top:3,
+                            child: BigText(text: Get.find<PopularProductController>().totalItems.toString(),
+                                size: 12, color: Colors.white,
+                            ),
+
+                          ):
+                          Container(),
+                        ],
+                      ),
                     );
                   })
 

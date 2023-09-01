@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:projectviii/controllers/cart_controller.dart';
 import 'package:projectviii/data/repository/popular_product_repo.dart';
+import 'package:projectviii/models/cart_model.dart';
 import 'package:projectviii/models/products_model.dart';
 import 'package:projectviii/utils/app_constants.dart';
 import 'package:projectviii/utils/colors.dart';
@@ -56,6 +57,10 @@ class PopularProductController extends GetxController{
       Get.snackbar("Item Count", "You cannot add more !",
           backgroundColor: AppColors.secondColor,
           colorText: Colors.white);
+      if(_inCartItems>0){
+        _quantity =- _inCartItems;
+        return _quantity;
+      }
       return 20;
     }else{
       return quantity;
@@ -91,5 +96,9 @@ class PopularProductController extends GetxController{
 
   int get totalItems{
     return _cart.totalItems;
+  }
+
+  List<CartModel> get getItems{
+    return _cart.getItems;
   }
 }

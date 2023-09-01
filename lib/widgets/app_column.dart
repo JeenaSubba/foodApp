@@ -26,7 +26,7 @@ class AppColumn extends StatelessWidget {
               children: List.generate(5, (index) {
                 return Icon(
                   Icons.star,
-                  size:Dimensions.iconSize24, //added
+                  size:Dimensions.iconSize20, //added
                   color: AppColors.secondColor,
                 );
               }),
